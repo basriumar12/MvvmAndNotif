@@ -9,12 +9,17 @@ android {
 
     defaultConfig {
         applicationId "com.basri.mvvmandnotif"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
@@ -35,5 +40,29 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //http koneksi
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
+
+
+    //libary recyclerview
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    //library picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //buat ambil gambar
+    implementation 'com.github.esafirm.android-image-picker:imagepicker:2.4.1'
+    // for experimental rx picker
+    implementation 'com.github.esafirm.android-image-picker:rximagepicker:2.4.1'
+    // If you have a problem with Glide, please use the same Glide version or simply open an issue
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+    ///buat permission mudah
+    implementation 'pub.devrel:easypermissions:3.0.0'
+    implementation "com.karumi:dexter:6.2.0"
+    //upload http koneksi
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
 
 }
