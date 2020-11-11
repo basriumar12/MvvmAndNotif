@@ -14,7 +14,12 @@ class SplashActivity : AppCompatActivity() {
 
         Handler().postDelayed(object : Runnable {
             override fun run() {
-                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
+                startActivity(
+                    Intent(
+                        this@SplashActivity,
+                        HomeActivity::class.java
+                    )
+                )
             }
         }, 3000)
     }

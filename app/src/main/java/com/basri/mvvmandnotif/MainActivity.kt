@@ -174,6 +174,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 pb.visibility = View.VISIBLE
                 btn_input.visibility = View.GONE
+
+
                 val api = RetroServer.apiServices
                 val insert: Call<ResponseData> = api.insertData(
                     edt_nama.text.toString(),

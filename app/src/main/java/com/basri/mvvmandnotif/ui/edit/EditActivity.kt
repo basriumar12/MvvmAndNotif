@@ -1,4 +1,4 @@
-package com.basri.mvvmandnotif.ui.create
+package com.basri.mvvmandnotif.ui.edit
 
 import android.Manifest
 import android.content.Intent
@@ -22,31 +22,32 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import kotlinx.android.synthetic.main.activity_create.*
-import kotlinx.android.synthetic.main.activity_create.btn_input
-import kotlinx.android.synthetic.main.activity_create.edt_desk
-import kotlinx.android.synthetic.main.activity_create.edt_gambar
-import kotlinx.android.synthetic.main.activity_create.edt_lokasi
-import kotlinx.android.synthetic.main.activity_create.edt_nama
-import kotlinx.android.synthetic.main.activity_create.edt_tanggal
-import kotlinx.android.synthetic.main.activity_create.pb
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_edit.*
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
-class CreateActivity : AppCompatActivity() {
+class EditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create)
+        setContentView(R.layout.activity_edit)
 
+        getData()
         aktifPermission()
         inputData()
 
-
     }
+
+    private fun getData() {
+        edt_gambar.setText(intent.getStringExtra("GAMBAR"))
+        edt_lokasi.setText(intent.getStringExtra("LOKASI"))
+        edt_nama.setText(intent.getStringExtra("NAME"))
+        edt_tanggal.setText(intent.getStringExtra("TGL"))
+        edt_desk.setText(intent.getStringExtra("DESK"))
+    }
+
     fun aktifPermission() {
         Dexter.withActivity(this).withPermissions(
             Manifest.permission.CAMERA,
@@ -76,7 +77,7 @@ class CreateActivity : AppCompatActivity() {
             var images = ImagePicker.getImages(data)
             // or get a single image only
             var image = ImagePicker.getFirstImageOrNull(data)
-            uploadFoto(File(image.path),image.name)
+            uploadFoto(File(image.path), image.name)
         }
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -93,21 +94,21 @@ class CreateActivity : AppCompatActivity() {
             .build()
             .setUploadProgressListener(object : UploadProgressListener {
                 override fun onProgress(bytesUploaded: Long, totalBytes: Long) {
-                    Toast.makeText(this@CreateActivity, " Progress Upload", Toast.LENGTH_LONG)
+                    Toast.makeText(this@EditActivity, " Progress Upload", Toast.LENGTH_LONG)
                         .show()
                 }
             })
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onError(anError: ANError?) {
-                    Log.e("TAG","error $anError")
+                    Log.e("TAG", "error $anError")
 
-                    Toast.makeText(this@CreateActivity, " Gagal Upload", Toast.LENGTH_LONG)
+                    Toast.makeText(this@EditActivity, " Gagal Upload", Toast.LENGTH_LONG)
                         .show()
                 }
 
                 override fun onResponse(response: JSONObject?) {
 
-                    Toast.makeText(this@CreateActivity, " Berhasil Upload", Toast.LENGTH_LONG)
+                    Toast.makeText(this@EditActivity, " Berhasil Upload", Toast.LENGTH_LONG)
                         .show()
 
                     val jsonObject = JSONObject(response.toString())
@@ -127,7 +128,7 @@ class CreateActivity : AppCompatActivity() {
     private fun inputData() {
 
         edt_gambar.setOnClickListener {
-            ImagePicker.create(this@CreateActivity) // Activity or Fragment
+            ImagePicker.create(this@EditActivity) // Activity or Fragment
                 .start()
         }
         btn_input.setOnClickListener {
@@ -147,12 +148,13 @@ class CreateActivity : AppCompatActivity() {
 
 
                 val api = RetroServer.apiServices
-                val insert: Call<ResponseData> = api.insertData(
+                val insert: Call<ResponseData> = api.updateData(
                     edt_nama.text.toString(),
                     edt_lokasi.text.toString(),
                     edt_desk.text.toString(),
                     edt_gambar.text.toString(),
-                    edt_tanggal.text.toString()
+                    edt_tanggal.text.toString(),
+                    intent.getStringExtra("ID")
                 )
 
                 insert.enqueue(object : Callback<ResponseData> {
@@ -161,8 +163,8 @@ class CreateActivity : AppCompatActivity() {
                         pb.visibility = View.GONE
                         btn_input.visibility = View.VISIBLE
                         Toast.makeText(
-                            this@CreateActivity,
-                            "Gagal Upload, ${t.message}", Toast.LENGTH_LONG
+                            this@EditActivity,
+                            "Gagal Update, ${t.message}", Toast.LENGTH_LONG
                         )
                             .show()
                     }
@@ -176,15 +178,17 @@ class CreateActivity : AppCompatActivity() {
 
 
                             pb.visibility = View.GONE
-                           finish()
+
                             Log.e("TAG", "message data ${response.body()?.message}")
                             Log.e("TAG", "message data ${Gson().toJson(response.body()?.message)}")
 
                             Toast.makeText(
-                                this@CreateActivity,
-                                "Berhasil Upload ", Toast.LENGTH_LONG
+                                this@EditActivity,
+                                "Berhasil Update ", Toast.LENGTH_LONG
                             )
                                 .show()
+
+                            finish()
                         }
 
                     }

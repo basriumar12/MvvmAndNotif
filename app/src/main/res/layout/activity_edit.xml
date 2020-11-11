@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_16"
+            android:gravity="center"
+            android:text="Silahkan Isi Laporan"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edt_nama"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:background="@drawable/bg_editext_transparent"
+            android:hint="Nama"
+            android:padding="@dimen/dimen_16" />
+
+        <EditText
+            android:id="@+id/edt_lokasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:background="@drawable/bg_editext_transparent"
+            android:hint="Lokasi"
+            android:padding="@dimen/dimen_16" />
+
+        <EditText
+            android:id="@+id/edt_desk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/dimen_16"
+            android:background="@drawable/bg_editext_transparent"
+            android:hint="dekripsi"
+            android:padding="@dimen/dimen_16" />
+
+
+        <EditText
+            android:id="@+id/edt_tanggal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/dimen_16"
+            android:background="@drawable/bg_editext_transparent"
+            android:hint="tanggal"
+            android:padding="@dimen/dimen_16" />
+
+
+        <EditText
+            android:id="@+id/edt_gambar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16"
+
+            android:background="@drawable/bg_editext_transparent"
+            android:hint="Klik 2x untuk ambil foto"
+            android:padding="@dimen/dimen_16" />
+
+        <ImageView
+            android:id="@+id/img_foto"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:visibility="gone" />
+
+        <Button
+
+            android:id="@+id/btn_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:background="@drawable/bg_button"
+            android:text="Edit Lapor"
+            android:textColor="#ffff" />
+
+        <ProgressBar
+            android:id="@+id/pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>
