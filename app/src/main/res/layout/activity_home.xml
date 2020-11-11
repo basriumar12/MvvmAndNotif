@@ -8,7 +8,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeActivity">
 
+    <androidx.appcompat.widget.SearchView
+        android:layout_marginTop="@dimen/dimen_10"
+        android:background="@drawable/bg_editext_transparent"
+        android:id="@+id/search"
+        app:queryHint="Serach"
+        android:layout_marginStart="@dimen/dimen_10"
+        android:layout_marginEnd="@dimen/dimen_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/search"
         android:id="@+id/rv_lapor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

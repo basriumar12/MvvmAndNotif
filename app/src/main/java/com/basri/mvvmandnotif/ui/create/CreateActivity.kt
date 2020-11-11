@@ -1,11 +1,13 @@
 package com.basri.mvvmandnotif.ui.create
 
 import android.Manifest
+import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.DatePicker
 import android.widget.Toast
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
@@ -36,8 +38,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CreateActivity : AppCompatActivity() {
+    var cal = Calendar.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create)
@@ -47,6 +52,7 @@ class CreateActivity : AppCompatActivity() {
 
 
     }
+
     fun aktifPermission() {
         Dexter.withActivity(this).withPermissions(
             Manifest.permission.CAMERA,
@@ -76,7 +82,7 @@ class CreateActivity : AppCompatActivity() {
             var images = ImagePicker.getImages(data)
             // or get a single image only
             var image = ImagePicker.getFirstImageOrNull(data)
-            uploadFoto(File(image.path),image.name)
+            uploadFoto(File(image.path), image.name)
         }
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -99,7 +105,7 @@ class CreateActivity : AppCompatActivity() {
             })
             .getAsJSONObject(object : JSONObjectRequestListener {
                 override fun onError(anError: ANError?) {
-                    Log.e("TAG","error $anError")
+                    Log.e("TAG", "error $anError")
 
                     Toast.makeText(this@CreateActivity, " Gagal Upload", Toast.LENGTH_LONG)
                         .show()
@@ -129,6 +135,34 @@ class CreateActivity : AppCompatActivity() {
         edt_gambar.setOnClickListener {
             ImagePicker.create(this@CreateActivity) // Activity or Fragment
                 .start()
+        }
+
+        val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+            override fun onDateSet(
+                view: DatePicker, year: Int, monthOfYear: Int,
+                dayOfMonth: Int
+            ) {
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                val myFormat = "MM/dd/yyyy" // mention the format you need
+                val sdf = SimpleDateFormat(myFormat, Locale.US)
+                edt_tanggal.setText(sdf.format(cal.getTime()))
+
+
+            }
+        }
+
+        edt_tanggal.setOnClickListener {
+            DatePickerDialog(
+                this, dateSetListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
+
+
         }
         btn_input.setOnClickListener {
 
@@ -176,7 +210,7 @@ class CreateActivity : AppCompatActivity() {
 
 
                             pb.visibility = View.GONE
-                           finish()
+                            finish()
                             Log.e("TAG", "message data ${response.body()?.message}")
                             Log.e("TAG", "message data ${Gson().toJson(response.body()?.message)}")
 

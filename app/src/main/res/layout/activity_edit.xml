@@ -61,7 +61,7 @@
 
             android:layout_marginTop="@dimen/dimen_16"
             android:background="@drawable/bg_editext_transparent"
-            android:hint="tanggal"
+            android:hint="Klik 2x untuk dapatkan tanggal"
             android:padding="@dimen/dimen_16" />
 
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.basri.mvvmandnotif.R
@@ -23,7 +24,7 @@ import retrofit2.Response
 class HomeActivity : AppCompatActivity(), LaporAdapter.OnLaporListiner {
 
     var dataLapor : ArrayList<Lapor> = ArrayList()
-
+    lateinit var adapterLapor: LaporAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -32,6 +33,8 @@ class HomeActivity : AppCompatActivity(), LaporAdapter.OnLaporListiner {
             startActivity(Intent(this,CreateActivity::class.java))
 
         }
+
+
 
 
     }
@@ -62,7 +65,7 @@ class HomeActivity : AppCompatActivity(), LaporAdapter.OnLaporListiner {
 
                         response.body()?.lapor?.let {
 
-                            val adapterLapor =LaporAdapter(it,this@HomeActivity)
+                             adapterLapor =LaporAdapter(it,this@HomeActivity)
                             rv_lapor.layoutManager = LinearLayoutManager(this@HomeActivity)
                             rv_lapor.setHasFixedSize(true)
                             rv_lapor.adapter = adapterLapor
@@ -78,6 +81,20 @@ class HomeActivity : AppCompatActivity(), LaporAdapter.OnLaporListiner {
                     }
                 }
             }
+        })
+
+
+        search.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapterLapor.filter.filter(newText)
+                return false
+            }
+
         })
     }
 

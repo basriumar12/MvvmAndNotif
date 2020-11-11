@@ -1,11 +1,13 @@
 package com.basri.mvvmandnotif.ui.edit
 
 import android.Manifest
+import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.DatePicker
 import android.widget.Toast
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
@@ -22,12 +24,22 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import kotlinx.android.synthetic.main.activity_create.*
 import kotlinx.android.synthetic.main.activity_edit.*
+import kotlinx.android.synthetic.main.activity_edit.btn_input
+import kotlinx.android.synthetic.main.activity_edit.edt_desk
+import kotlinx.android.synthetic.main.activity_edit.edt_gambar
+import kotlinx.android.synthetic.main.activity_edit.edt_lokasi
+import kotlinx.android.synthetic.main.activity_edit.edt_nama
+import kotlinx.android.synthetic.main.activity_edit.edt_tanggal
+import kotlinx.android.synthetic.main.activity_edit.pb
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -124,12 +136,39 @@ class EditActivity : AppCompatActivity() {
                 }
             })
     }
-
+    var cal = Calendar.getInstance()
     private fun inputData() {
 
         edt_gambar.setOnClickListener {
             ImagePicker.create(this@EditActivity) // Activity or Fragment
                 .start()
+        }
+        val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+            override fun onDateSet(
+                view: DatePicker, year: Int, monthOfYear: Int,
+                dayOfMonth: Int
+            ) {
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                val myFormat = "MM/dd/yyyy" // mention the format you need
+                val sdf = SimpleDateFormat(myFormat, Locale.US)
+                edt_tanggal.setText(sdf.format(cal.getTime()))
+
+
+            }
+        }
+
+        edt_tanggal.setOnClickListener {
+            DatePickerDialog(
+                this, dateSetListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
+
+
         }
         btn_input.setOnClickListener {
 
